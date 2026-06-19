@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KusinaFlow - Dashboard</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+  <aside class="sidebar">
+    <div class="logo-section">
+      <h2>kusinaflow</h2>
+      <p>Inventory management</p>
+    </div>
+
+    <nav>
+      <ul>
+        <li id="dashboardBtn" class="active">Dashboard</li>
+        <li id="stocksBtn">Stock Management</li>
+        <li id="reportBtn">Generate Reports</li>
+        <li id="stockHistoryBtn">Stock History</li>
+        <li id="staffManagementBtn">Staff Management</li>
+        <li id="logoutBtn">Log Out</li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+      <div>
+        <h1>Dashboard</h1>
+        <p class="subtitle">Inventory Overview</p>
+      </div>
+    </header>
+
+    <section class="dashboard-cards">
+      <div class="card">
+        <h3>Total Products</h3>
+        <p id="totalProducts">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Low Stock</h3>
+        <p id="lowStock">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Out of Stock</h3>
+        <p id="outOfStock">0</p>
+      </div>
+
+      <div class="card">
+        <h3>In Stock</h3>
+        <p id="inStock">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Highest Stock</h3>
+        <p id="topItem">-</p>
+      </div>
+    </section>
+
+    <div class="dashboard-layout">
+      
+      <section class="table-container" style="margin-bottom: 0;">
+        <div class="table-header">
+          <h2>Recent Stock Activity</h2>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Date & Time</th>
+              <th>Item Name</th>
+              <th>Action</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>UTD</th>
+              <th>Category</th>
+              <th>Performed By</th>
+              <th>Approved By</th>
+            </tr>
+          </thead>
+          <tbody id="activityTable"></tbody>
+        </table>
+      </section>
+
+      <section class="table-container" style="margin-bottom: 0;">
+        <div class="table-header">
+          <h2>Top Stocked Items</h2>
+        </div>
+        <div class="bar-chart-wrapper" id="topStockedChart">
+          </div>
+      </section>
+
+    </div>
+
+  </main>
+  
+  <script src="../db.js"></script>
+  <script src="../format.js"></script>
+  <script src="../api.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="../nav.js"></script>
+
+</body>
+</html>

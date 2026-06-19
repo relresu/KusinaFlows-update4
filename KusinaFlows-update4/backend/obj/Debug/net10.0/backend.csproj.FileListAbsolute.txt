@@ -1,0 +1,69 @@
+C:\OOP Project\KusinaFlows\backend\bin\Debug\net10.0\appsettings.Development.json
+C:\OOP Project\KusinaFlows\backend\bin\Debug\net10.0\appsettings.json
+C:\OOP Project\KusinaFlows\backend\bin\Debug\net10.0\backend.staticwebassets.endpoints.json
+C:\OOP Project\KusinaFlows\backend\bin\Debug\net10.0\backend.exe
+C:\OOP Project\KusinaFlows\backend\bin\Debug\net10.0\backend.deps.json
+C:\OOP Project\KusinaFlows\backend\bin\Debug\net10.0\backend.runtimeconfig.json
+C:\OOP Project\KusinaFlows\backend\bin\Debug\net10.0\backend.dll
+C:\OOP Project\KusinaFlows\backend\bin\Debug\net10.0\backend.pdb
+C:\OOP Project\KusinaFlows\backend\bin\Debug\net10.0\Microsoft.AspNetCore.OpenApi.dll
+C:\OOP Project\KusinaFlows\backend\bin\Debug\net10.0\Microsoft.OpenApi.dll
+C:\OOP Project\KusinaFlows\backend\bin\Debug\net10.0\Npgsql.dll
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.csproj.AssemblyReference.cache
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.GeneratedMSBuildEditorConfig.editorconfig
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.AssemblyInfoInputs.cache
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.AssemblyInfo.cs
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.csproj.CoreCompileInputs.cache
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.MvcApplicationPartsAssemblyInfo.cs
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.MvcApplicationPartsAssemblyInfo.cache
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.sourcelink.json
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\rjimswa.dswa.cache.json
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\scopedcss\bundle\backend.styles.css
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\staticwebassets.build.json
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\staticwebassets.build.json.cache
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\staticwebassets.development.json
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\swae.build.ex.cache
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.csproj.Up2Date
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.dll
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\refint\backend.dll
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.pdb
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\backend.genruntimeconfig.cache
+C:\OOP Project\KusinaFlows\backend\obj\Debug\net10.0\ref\backend.dll
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\appsettings.Development.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\appsettings.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\backend.staticwebassets.endpoints.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\backend.exe
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\backend.deps.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\backend.runtimeconfig.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\backend.dll
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\backend.pdb
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\Microsoft.OpenApi.dll
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\Npgsql.dll
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\backend.csproj.AssemblyReference.cache
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\backend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\backend.AssemblyInfoInputs.cache
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\backend.AssemblyInfo.cs
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\backend.csproj.CoreCompileInputs.cache
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\backend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\rjimswa.dswa.cache.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\scopedcss\bundle\backend.styles.css
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\staticwebassets.build.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\staticwebassets.build.json.cache
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\staticwebassets.development.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\backend.csproj.Up2Date
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\backend.dll
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\refint\backend.dll
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\backend.pdb
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\backend.genruntimeconfig.cache
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\obj\Debug\net10.0\ref\backend.dll

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KusinaFlow Login</title>
+    <link rel="stylesheet" href="login.css">
+    <script type="text/javascript" src="../api.js" defer></script>
+    <script type="text/javascript" src="./login.js" defer></script>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Login</h1>
+        <p id="error-message"></p>
+        <form id="form">         
+            
+            <div>
+                <label for="username-input">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; color: #000000;">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </label>
+                <input type="text" name="user" id="username-input" placeholder="Username" autocomplete="username" required>
+            </div>
+
+            <div>
+                <label for="password-input">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm296.5-143.5Q560-327 560-360t-23.5-56.5Q513-440 480-440t-56.5 23.5Q400-393 400-360t23.5 56.5Q447-280 480-280t56.5-23.5ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/></svg>
+                </label>
+                <input type="password" name="password" id="password-input" placeholder="Password" autocomplete="current-password" required>
+            </div>
+
+            <button type="submit">Log in</button>
+        </form>
+    </div>
+</body>
+</html>
