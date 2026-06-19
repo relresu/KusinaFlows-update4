@@ -142,10 +142,18 @@ function renderStaffTable(filteredData = null) {
 // ============================================================================
 // BASE64 PLAIN TEXT IMAGE STREAM PROCESSING
 // ============================================================================
+const MAX_AVATAR_BYTES = 2 * 1024 * 1024; // 2MB — avatars are stored as base64 TEXT with no DB-side limit
+
 if (staffProfilePicInput) {
     staffProfilePicInput.addEventListener("change", function (e) {
         const file = e.target.files[0];
         if (!file) return;
+
+        if (file.size > MAX_AVATAR_BYTES) {
+            alert("That image is too large (max 2MB). Please choose a smaller photo.");
+            staffProfilePicInput.value = "";
+            return;
+        }
 
         const reader = new FileReader();
         reader.onload = function (event) {
@@ -391,37 +399,67 @@ function updateBulkActionPanelState() {
 if (bulkDeactivateBtn) {
     bulkDeactivateBtn.addEventListener("click", async () => {
         if (selectedStaffIds.size === 0) return;
-        if (!confirm(`Deactivate ${selectedStaffIds.size} selected staff member(s)? They will no longer be able to log in.`)) return;
 
-        const targets = staffRegistry.filter(s => selectedStaffIds.has(s.sC_ID));
+        const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+        let targets = staffRegistry.filter(s => selectedStaffIds.has(s.sC_ID));
 
-        try {
-            for (const staff of targets) {
-                // UpdateStaff replaces the full row, so the complete existing
-                // record is resent with only Active flipped — a partial payload
-                // here would null out the staff member's other fields server-side.
-                const payload = {
-                    FirstName: staff.firstName,
-                    MI: staff.mi,
-                    LastName: staff.lastName,
-                    Position: staff.position,
-                    Username: staff.username,
-                    ContactInfo: staff.contactInfo,
-                    ProfilePicture: staff.profilePicture,
-                    Active: false
-                };
+        // Managers cannot deactivate Manager/Owner accounts (mirrors the same
+        // restriction already enforced on the per-row Edit button).
+        if (currentUser && currentUser.position === "Manager") {
+            const blocked = targets.filter(s => s.position === "Manager" || s.position === "Owner");
+            if (blocked.length > 0) {
+                alert(`Privilege Limitation Error: Managers cannot deactivate Managerial or Ownership accounts (${blocked.map(s => s.username).join(", ")}). Deselect them and try again.`);
+                return;
+            }
+        }
+
+        if (!confirm(`Deactivate ${targets.length} selected staff member(s)? They will no longer be able to log in.`)) return;
+
+        let failedCount = 0;
+        let sessionExpired = false;
+
+        for (const staff of targets) {
+            // UpdateStaff replaces the full row, so the complete existing
+            // record is resent with only Active flipped — a partial payload
+            // here would null out the staff member's other fields server-side.
+            const payload = {
+                FirstName: staff.firstName,
+                MI: staff.mi,
+                LastName: staff.lastName,
+                Position: staff.position,
+                Username: staff.username,
+                ContactInfo: staff.contactInfo,
+                ProfilePicture: staff.profilePicture,
+                Active: false
+            };
+
+            try {
                 const response = await window.kfFetch(`${API_BASE_URL}/staff/${staff.sC_ID}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
-                if (!response.ok) throw new Error(`Failed to deactivate ${staff.firstName} ${staff.lastName}.`);
+
+                if (response.status === 401) {
+                    // kfFetch already clears the session and redirects on 401 —
+                    // stop the loop instead of piling on more failed requests.
+                    sessionExpired = true;
+                    break;
+                }
+                if (!response.ok) failedCount++;
+            } catch (error) {
+                console.error(`Bulk deactivate network error for ${staff.username}:`, error);
+                failedCount++;
             }
-            selectedStaffIds.clear();
-            await initializeStaffDashboard();
-        } catch (error) {
-            console.error("Bulk deactivate error:", error);
-            alert(error.message);
+        }
+
+        if (sessionExpired) return; // kfFetch is already redirecting to login
+
+        selectedStaffIds.clear();
+        await initializeStaffDashboard();
+
+        if (failedCount > 0) {
+            alert(`${failedCount} of ${targets.length} staff member(s) could not be deactivated. Please try again.`);
         }
     });
 }

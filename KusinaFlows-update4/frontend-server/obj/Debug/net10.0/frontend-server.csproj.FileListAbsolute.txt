@@ -24,3 +24,4 @@ C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\frontend-server\
 C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\frontend-server\obj\Debug\net10.0\frontend-server.pdb
 C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\frontend-server\obj\Debug\net10.0\frontend-server.genruntimeconfig.cache
 C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\frontend-server\obj\Debug\net10.0\ref\frontend-server.dll
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\frontend-server\obj\Debug\net10.0\frontend-server.sourcelink.json

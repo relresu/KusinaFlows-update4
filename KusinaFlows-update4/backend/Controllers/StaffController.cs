@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using KusinaFlows.Services;
-using KusinaFlows.Models; 
+using KusinaFlows.Models;
 using System;
 using System.Collections.Generic;
 
@@ -9,6 +10,7 @@ namespace KusinaFlows.Controllers
 {
     [ApiController]
     [Route("api/[controller]")] // Routes to: api/staff
+    [Authorize] // Staff Management is restricted to Manager/Owner — enforced per-action below
     public class StaffController : ControllerBase
     {
         private readonly DatabaseService _dbService;
@@ -18,8 +20,17 @@ namespace KusinaFlows.Controllers
             _dbService = dbService;
         }
 
+        // Position carried in the caller's JWT (see middleware/JwtTokenService.cs)
+        private string CallerPosition => User.FindFirst("position")?.Value ?? "Staff";
+        private bool CallerIsManagerOrOwner => CallerPosition == "Manager" || CallerPosition == "Owner";
+
         // ============================================================================
         // GET: api/staff (Fetch all users)
+        // Intentionally open to any authenticated role, not just Manager/Owner —
+        // Stock-In/Out/Edit forms and the Stock History filter all depend on this
+        // list (e.g. to populate the "Approved By" dropdown), and those are used
+        // by Staff-level accounts too. The Staff Management *page* itself is what
+        // nav.js hides from Staff; the write actions below remain locked down.
         // ============================================================================
         [HttpGet]
         public IActionResult GetAllStaff()
@@ -32,8 +43,8 @@ namespace KusinaFlows.Controllers
                 {
                     conn.Open();
                     string sql = @"
-                        SELECT ""SC_ID"", ""FirstName"", ""MI"", ""LastName"", ""Position"", 
-                               ""Username"", ""ContactInfo"", ""ProfilePicture"", ""DateHired"", 
+                        SELECT ""SC_ID"", ""FirstName"", ""MI"", ""LastName"", ""Position"",
+                               ""Username"", ""ContactInfo"", ""ProfilePicture"", ""DateHired"",
                                ""LastLogin"", ""Active""
                         FROM public.""STOCK CONTROLLER""
                         ORDER BY ""SC_ID"" ASC;";
@@ -74,7 +85,16 @@ namespace KusinaFlows.Controllers
         [HttpPost]
         public IActionResult CreateStaff([FromBody] StaffDto payload)
         {
+            if (!CallerIsManagerOrOwner)
+                return Forbid();
+
             if (payload == null) return BadRequest(new { message = "Invalid data format payload." });
+
+            // Managers can only create Staff-level accounts (mirrors the frontend's
+            // role dropdown restriction, enforced here so it can't be bypassed by
+            // calling the API directly).
+            if (CallerPosition == "Manager" && payload.Position != "Staff")
+                return Forbid();
 
             try
             {
@@ -93,7 +113,7 @@ namespace KusinaFlows.Controllers
 
                     // Insert query matching your schema sequence layout
                     string insertSql = @"
-                        INSERT INTO public.""STOCK CONTROLLER"" 
+                        INSERT INTO public.""STOCK CONTROLLER""
                         (""FirstName"", ""MI"", ""LastName"", ""Position"", ""Username"", ""Password"", ""ContactInfo"", ""ProfilePicture"", ""DateHired"", ""LastLogin"", ""Active"")
                         VALUES (@FirstName, @MI, @LastName, @Position, @Username, @Password, @ContactInfo, @ProfilePicture, @DateHired, @LastLogin, @Active)
                         RETURNING ""SC_ID"";";
@@ -133,6 +153,9 @@ namespace KusinaFlows.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateStaff(int id, [FromBody] StaffDto payload)
         {
+            if (!CallerIsManagerOrOwner)
+                return Forbid();
+
             if (payload == null) return BadRequest(new { message = "Invalid data transaction format." });
 
             try
@@ -140,6 +163,27 @@ namespace KusinaFlows.Controllers
                 using (var conn = _dbService.GetConnection())
                 {
                     conn.Open();
+
+                    // Managers cannot touch Manager/Owner accounts — neither the existing
+                    // record nor what the payload is trying to turn it into. Owners are
+                    // unrestricted. This mirrors the frontend's Edit-button guard, now
+                    // enforced server-side so it can't be bypassed via direct API calls.
+                    if (CallerPosition == "Manager")
+                    {
+                        string? currentPosition = null;
+                        using (var sel = new NpgsqlCommand(
+                            @"SELECT ""Position"" FROM public.""STOCK CONTROLLER"" WHERE ""SC_ID""=@Id;", conn))
+                        {
+                            sel.Parameters.AddWithValue("@Id", id);
+                            currentPosition = sel.ExecuteScalar() as string;
+                        }
+
+                        bool targetIsPrivileged = currentPosition == "Manager" || currentPosition == "Owner";
+                        bool payloadEscalates = payload.Position == "Manager" || payload.Position == "Owner";
+
+                        if (targetIsPrivileged || payloadEscalates)
+                            return Forbid();
+                    }
 
                     // Dynamically build string parameters depending on if password was updated
                     bool hasNewPassword = !string.IsNullOrWhiteSpace(payload.Password);
@@ -152,7 +196,7 @@ namespace KusinaFlows.Controllers
                             ""Username"" = @Username,
                             ""ContactInfo"" = @ContactInfo,
                             ""ProfilePicture"" = @ProfilePicture,
-                            ""Active"" = @Active" 
+                            ""Active"" = @Active"
                             + (hasNewPassword ? @", ""Password"" = @Password " : " ") +
                         @"WHERE ""SC_ID"" = @SC_ID;";
 
@@ -191,7 +235,7 @@ namespace KusinaFlows.Controllers
         [HttpPost("update-login-time")]
         public IActionResult UpdateStaffLoginTime([FromBody] StaffDto staff)
         {
-            if (staff == null || string.IsNullOrEmpty(staff.Username)) 
+            if (staff == null || string.IsNullOrEmpty(staff.Username))
                 return BadRequest(new { message = "Invalid staff profile authentication telemetry layout." });
 
             try
@@ -202,7 +246,7 @@ namespace KusinaFlows.Controllers
 
                     // Generate synchronized Philippine Standard Time (GMT+8) coordinates
                     DateTime utcNow = DateTime.UtcNow;
-                    TimeZoneInfo phTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"); 
+                    TimeZoneInfo phTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
                     DateTime phTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, phTimeZone);
                     string currentTimestamp = phTime.ToString("yyyy-MM-dd HH:mm:ss");
 

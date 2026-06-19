@@ -36,57 +36,29 @@
       </div>
     </header>
 
-    <section class="dashboard-cards">
-      <div class="card">
-        <h3>Total Products</h3>
-        <p id="totalProducts">0</p>
-      </div>
-
-      <div class="card">
-        <h3>Low Stock</h3>
-        <p id="lowStock">0</p>
-      </div>
-
-      <div class="card">
-        <h3>Out of Stock</h3>
-        <p id="outOfStock">0</p>
-      </div>
-
-      <div class="card">
-        <h3>In Stock</h3>
-        <p id="inStock">0</p>
-      </div>
-
-      <div class="card">
-        <h3>Highest Stock</h3>
-        <p id="topItem">-</p>
-      </div>
-    </section>
-
     <div class="dashboard-layout">
-      
-      <section class="table-container" style="margin-bottom: 0;">
-        <div class="table-header">
-          <h2>Recent Stock Activity</h2>
+
+      <div class="dashboard-stat-grid">
+        <div class="card">
+          <h3>Total Products</h3>
+          <p id="totalProducts">0</p>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Date & Time</th>
-              <th>Item Name</th>
-              <th>Action</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>UTD</th>
-              <th>Category</th>
-              <th>Performed By</th>
-              <th>Approved By</th>
-            </tr>
-          </thead>
-          <tbody id="activityTable"></tbody>
-        </table>
-      </section>
+        <div class="card">
+          <h3>Low Stock</h3>
+          <p id="lowStock">0</p>
+        </div>
+
+        <div class="card">
+          <h3>Out of Stock</h3>
+          <p id="outOfStock">0</p>
+        </div>
+
+        <div class="card">
+          <h3>In Stock</h3>
+          <p id="inStock">0</p>
+        </div>
+      </div>
 
       <section class="table-container" style="margin-bottom: 0;">
         <div class="table-header">
@@ -97,6 +69,29 @@
       </section>
 
     </div>
+
+    <section class="table-container" id="recentActivitySection">
+      <div class="table-header">
+        <h2>Recent Stock Activity</h2>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Date & Time</th>
+            <th>Item Name</th>
+            <th>Action</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>UTD</th>
+            <th>Category</th>
+            <th>Performed By</th>
+            <th>Approved By</th>
+          </tr>
+        </thead>
+        <tbody id="activityTable"></tbody>
+      </table>
+    </section>
 
   </main>
   

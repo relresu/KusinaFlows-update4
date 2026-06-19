@@ -10,7 +10,6 @@ const totalProductsEl = document.getElementById("totalProducts");
 const lowStockEl      = document.getElementById("lowStock");
 const outOfStockEl    = document.getElementById("outOfStock");
 const inStockEl       = document.getElementById("inStock");
-const topItemEl       = document.getElementById("topItem");
 
 // DOM Elements - Interactive Components
 const activityTable   = document.getElementById("activityTable");
@@ -44,7 +43,6 @@ async function initDashboard() {
   } catch (error) {
     console.error("Dashboard crash:", error);
     if (totalProductsEl) totalProductsEl.textContent = "⚠️";
-    if (topItemEl)       topItemEl.textContent       = "Server Offline";
   }
 }
 
@@ -101,8 +99,6 @@ function renderSummaryCards() {
   let lowStockCount    = 0;
   let outOfStockCount  = 0;
   let inStockCount     = 0;
-  let highestQty       = -1;
-  let highestStockName = "-";
 
   productsList.forEach(name => {
     const qty = uniqueItemsMap[name].totalQty;
@@ -110,18 +106,12 @@ function renderSummaryCards() {
     if (qty === 0)      outOfStockCount++;   // Available=true but nothing left
     else if (qty <= 5)  lowStockCount++;
     else                inStockCount++;
-
-    if (qty > highestQty) {
-      highestQty       = qty;
-      highestStockName = `${name} (${qty})`;
-    }
   });
 
   if (totalProductsEl) totalProductsEl.textContent = productsList.length;
   if (lowStockEl)      lowStockEl.textContent      = lowStockCount;
   if (outOfStockEl)    outOfStockEl.textContent    = outOfStockCount;
   if (inStockEl)       inStockEl.textContent       = inStockCount;
-  if (topItemEl)       topItemEl.textContent       = highestStockName;
 
   // Highlight each KPI card when its respective count is above zero
   const lowStockCard   = lowStockEl   ? lowStockEl.closest(".card")   : null;

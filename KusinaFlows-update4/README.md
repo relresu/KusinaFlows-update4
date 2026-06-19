@@ -41,4 +41,15 @@ Fixed code inconsistencies
 Fixed a bug where password crashes when empty
 **Change made by: Kirsten Licup**
 
+1.5 - 20/06/26
++ Repo now split into three top-level folders: backend/, middleware/, frontend/ (this README stays outside all three)
++ Auth rebuilt on JWT bearer tokens (middleware/ project), replacing the old in-memory session store — stays valid across backend restarts
++ Server-side privilege checks added: Managers can no longer create/edit Manager or Owner accounts via direct API calls, only through the UI's existing restrictions
++ Removed TestController.cs (diagnostics-only, not required for the app to run) and an unused/unreferenced legacy model (ProductCreateDto.cs)
++ Dashboard rearranged: KPI cards now sit in a 2x2 grid beside Top Stocked Items, Recent Stock Activity spans full width
+• Fixed print output cropping/scrollbar artifacts on the Reports and Staff Management print views
+• Fixed Bulk Deactivate giving a misleading error on session expiry; added the missing Manager/Owner privilege check
++ Added date-range validation on Generate Reports (blocks From-after-To and future-dated picks)
++ Tightened overall UI spacing/sizing app-wide for a more compact look
+**Changes made by: Claude (AI pair-programming session)**
 

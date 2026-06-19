@@ -1,21 +1,24 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using KusinaFlows.Services;
+using KusinaFlows.Middleware;
 using System;
 
 namespace KusinaFlows.Controllers
 {
     [ApiController]
     [Route("api/auth")]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly DatabaseService _dbService;
-        private readonly SessionService _sessionService;
+        private readonly JwtTokenService _jwtTokenService;
 
-        public AuthController(DatabaseService dbService, SessionService sessionService)
+        public AuthController(DatabaseService dbService, JwtTokenService jwtTokenService)
         {
             _dbService = dbService;
-            _sessionService = sessionService;
+            _jwtTokenService = jwtTokenService;
         }
 
         [HttpPost("login")]
@@ -96,7 +99,7 @@ namespace KusinaFlows.Controllers
                 return StatusCode(403, new { message = "Can't Logged in" });
             }
 
-            string token = _sessionService.CreateSession(scId!.Value, dbUsername!, position ?? "Staff");
+            string token = _jwtTokenService.GenerateToken(scId!.Value, dbUsername!, position ?? "Staff");
 
             // Authenticated successfully! Compile the payload profile object
             return Ok(new {
@@ -116,18 +119,13 @@ namespace KusinaFlows.Controllers
         }
 
         // ============================================================================
-        // POST api/auth/logout — best-effort token invalidation
+        // POST api/auth/logout
+        // JWTs are stateless — there's no server-side session to invalidate, so
+        // logging out is just the client discarding its token. This endpoint
+        // exists purely so the frontend has a symmetrical call to make.
         // ============================================================================
         [HttpPost("logout")]
-        public IActionResult Logout()
-        {
-            string? token = Request.Headers.Authorization.ToString().Replace("Bearer ", "").Trim();
-            if (!string.IsNullOrEmpty(token))
-            {
-                _sessionService.InvalidateSession(token);
-            }
-            return Ok(new { message = "Logged out." });
-        }
+        public IActionResult Logout() => Ok(new { message = "Logged out." });
 
         private void UpgradeLegacyPassword(int scId, string plainTextPassword)
         {

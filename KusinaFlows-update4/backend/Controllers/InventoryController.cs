@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using KusinaFlows.Models;
 using Npgsql;
@@ -10,6 +11,7 @@ namespace KusinaFlows.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] // any authenticated staff member (Staff/Manager/Owner) can manage inventory
     public class InventoryController : ControllerBase
     {
         private readonly DatabaseService _dbService;

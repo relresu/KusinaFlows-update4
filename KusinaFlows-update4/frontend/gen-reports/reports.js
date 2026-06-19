@@ -13,9 +13,10 @@ const totalValueReportEl = document.getElementById("totalValueReport");
 const lowStockReportEl   = document.getElementById("lowStockReport");
 
 // DOM Elements - Date Range Filter
-const reportFromDate     = document.getElementById("reportFromDate");
-const reportToDate       = document.getElementById("reportToDate");
-const btnClearDateRange  = document.getElementById("btnClearDateRange");
+const reportFromDate        = document.getElementById("reportFromDate");
+const reportToDate          = document.getElementById("reportToDate");
+const btnClearDateRange     = document.getElementById("btnClearDateRange");
+const reportDateRangeWarning = document.getElementById("reportDateRangeWarning");
 
 // DOM Elements - Report Triggers & Output
 const btnInventoryReport   = document.getElementById("btnInventoryReport");
@@ -32,6 +33,11 @@ const reportTableBody      = document.getElementById("reportTableBody");
 // INITIALIZATION
 // ============================================================================
 async function initReportsPage() {
+    // Block picking a future date directly in the native date picker
+    const todayStr = new Date().toISOString().slice(0, 10);
+    if (reportFromDate) reportFromDate.max = todayStr;
+    if (reportToDate) reportToDate.max = todayStr;
+
     try {
         const [invRes, histRes] = await Promise.all([
             window.kfFetch(`${API_BASE_URL}/inventory`),
@@ -80,6 +86,34 @@ function getDateRange() {
     return { from, to };
 }
 
+// Blocks From-after-To picks and dates set in the future (no data can exist
+// for a period that hasn't happened yet). Returns true when the current
+// selection is usable; shows an inline warning and returns false otherwise.
+function validateDateRange() {
+    const { from, to } = getDateRange();
+    const now = new Date();
+
+    let message = "";
+    if (from && to && from > to) {
+        message = "\"From\" date must be on or before the \"To\" date.";
+    } else if (from && from > now) {
+        message = "\"From\" date can't be in the future.";
+    } else if (to && to > now) {
+        message = "\"To\" date can't be in the future.";
+    }
+
+    if (reportDateRangeWarning) {
+        reportDateRangeWarning.textContent = message;
+        reportDateRangeWarning.style.display = message ? "block" : "none";
+    }
+
+    if (message) {
+        reportTableContainer.classList.add("hidden");
+        return false;
+    }
+    return true;
+}
+
 function isWithinRange(rawDateValue, from, to) {
     if (!from && !to) return true;
     const d = window.KFFormat.parseAnyDate(rawDateValue);
@@ -108,6 +142,7 @@ function showReportContainer() {
 // ============================================================================
 function renderInventoryReport() {
     currentReportType = "inventory";
+    if (!validateDateRange()) return;
     const { from, to } = getDateRange();
 
     const rows = rawInventory.filter(r => isWithinRange(r.dateAdded ?? r.DateAdded, from, to));
@@ -159,6 +194,7 @@ function renderInventoryReport() {
 // ============================================================================
 function renderMovementReport() {
     currentReportType = "movement";
+    if (!validateDateRange()) return;
     const { from, to } = getDateRange();
 
     const rows = rawHistory.filter(h => isWithinRange(h.dateTime ?? h.DateTime, from, to));
@@ -236,6 +272,7 @@ function buildMovementRow(act) {
 // ============================================================================
 function renderFinanceReport() {
     currentReportType = "finance";
+    if (!validateDateRange()) return;
     const { from, to } = getDateRange();
 
     const rows = rawHistory.filter(h => {
@@ -322,13 +359,18 @@ if (btnFinanceReport)   btnFinanceReport.addEventListener("click", renderFinance
 if (btnPrintReport)     btnPrintReport.addEventListener("click", () => window.print());
 
 [reportFromDate, reportToDate].forEach(el => {
-    if (el) el.addEventListener("change", rerenderActiveReport);
+    if (!el) return;
+    el.addEventListener("change", () => {
+        validateDateRange(); // shows/clears the inline warning even before a report is picked
+        rerenderActiveReport();
+    });
 });
 
 if (btnClearDateRange) {
     btnClearDateRange.addEventListener("click", () => {
         reportFromDate.value = "";
         reportToDate.value = "";
+        validateDateRange();
         rerenderActiveReport();
     });
 }

@@ -1,0 +1,13 @@
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\bin\Debug\net10.0\KusinaFlows.Middleware.deps.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\bin\Debug\net10.0\KusinaFlows.Middleware.dll
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\bin\Debug\net10.0\KusinaFlows.Middleware.pdb
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\obj\Debug\net10.0\KusinaFlows.Middleware.csproj.AssemblyReference.cache
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\obj\Debug\net10.0\KusinaFlows.Middleware.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\obj\Debug\net10.0\KusinaFlows.Middleware.AssemblyInfoInputs.cache
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\obj\Debug\net10.0\KusinaFlows.Middleware.AssemblyInfo.cs
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\obj\Debug\net10.0\KusinaFlows.Middleware.csproj.CoreCompileInputs.cache
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\obj\Debug\net10.0\KusinaFlows.Middleware.sourcelink.json
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\obj\Debug\net10.0\KusinaFlows.Middleware.dll
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\obj\Debug\net10.0\refint\KusinaFlows.Middleware.dll
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\obj\Debug\net10.0\KusinaFlows.Middleware.pdb
+C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\middleware\obj\Debug\net10.0\ref\KusinaFlows.Middleware.dll
