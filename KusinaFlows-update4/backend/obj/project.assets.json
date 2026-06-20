@@ -447,11 +447,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\User\\Downloads\\KusinaFlows-update4\\KusinaFlows-update4\\backend\\backend.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Downloads\\KusinaFlows-update4\\KusinaFlows-update4\\backend\\backend.csproj",
       "projectName": "backend",
-      "projectPath": "c:\\Users\\User\\Downloads\\KusinaFlows-update4\\KusinaFlows-update4\\backend\\backend.csproj",
+      "projectPath": "C:\\Users\\User\\Downloads\\KusinaFlows-update4\\KusinaFlows-update4\\backend\\backend.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\User\\Downloads\\KusinaFlows-update4\\KusinaFlows-update4\\backend\\obj\\",
+      "outputPath": "C:\\Users\\User\\Downloads\\KusinaFlows-update4\\KusinaFlows-update4\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -467,8 +467,8 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "c:\\Users\\User\\Downloads\\KusinaFlows-update4\\KusinaFlows-update4\\middleware\\KusinaFlows.Middleware.csproj": {
-              "projectPath": "c:\\Users\\User\\Downloads\\KusinaFlows-update4\\KusinaFlows-update4\\middleware\\KusinaFlows.Middleware.csproj"
+            "C:\\Users\\User\\Downloads\\KusinaFlows-update4\\KusinaFlows-update4\\middleware\\KusinaFlows.Middleware.csproj": {
+              "projectPath": "C:\\Users\\User\\Downloads\\KusinaFlows-update4\\KusinaFlows-update4\\middleware\\KusinaFlows.Middleware.csproj"
             }
           }
         }

@@ -150,14 +150,20 @@
   </div>
 
 
-  <!-- Edit Price Modal -->
+  <!-- Edit Item Modal — edits apply to every active batch of the item -->
   <div class="modal hidden" id="editPriceModal">
     <div class="modal-content">
-      <h2>Edit Price</h2>
+      <h2>Edit Item</h2>
       <p id="editPriceSubtitle" style="font-size:13px;color:#666;margin-bottom:16px;"></p>
 
       <form id="editPriceForm">
-        <label class="field-label" for="editPriceInput">New Price</label>
+        <label class="field-label" for="editItemNameInput">Item Name</label>
+        <input type="text" id="editItemNameInput" required>
+
+        <label class="field-label" for="editItemCategoryInput">Category</label>
+        <input type="text" id="editItemCategoryInput" required>
+
+        <label class="field-label" for="editPriceInput">Price</label>
         <input type="number" step="0.01" min="0" id="editPriceInput" required>
 
         <div style="display:flex;flex-direction:column;width:100%;margin-top:10px;margin-bottom:15px;">

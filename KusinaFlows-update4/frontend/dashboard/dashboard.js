@@ -173,6 +173,8 @@ async function fetchRecentActivityLogs() {
 
       const dateTime  = window.KFFormat.formatDateTimeDisplay(log.DateTime ?? log.dateTime ?? "N/A");
       const itemName  = log.ItemName    ?? log.itemName    ?? "Unknown";
+      const batchId   = log.BatchID     ?? log.batchID     ?? null;
+      const itemNameDisplay = batchId ? `${itemName} <span class="role-tag">(#BTC-${batchId})</span>` : itemName;
       const performer = log.PerformedBy ?? log.performedBy ?? "System Auto";
       const approver  = log.ApprovedBy  ?? log.approvedBy  ?? "N/A";
       const performerPos = log.PerformedByPosition ?? log.performedByPosition ?? null;
@@ -182,7 +184,7 @@ async function fetchRecentActivityLogs() {
 
       tr.innerHTML = `
         <td>${dateTime}</td>
-        <td><strong>${itemName}</strong></td>
+        <td><strong>${itemNameDisplay}</strong></td>
         <td><span style="padding:4px 8px;border-radius:4px;font-size:11px;font-weight:bold;display:inline-block;${typeStyle}">${currentAction}</span></td>
         <td><strong>${qtyDisplay}</strong></td>
         <td><strong>${priceDisplay}</strong></td>

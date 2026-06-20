@@ -159,6 +159,8 @@ function renderHistory() {
         const approverDisplay = approverPos ? `${approver} <span class="role-tag">(${approverPos})</span>` : approver;
         const displayTime = window.KFFormat.formatDateTimeDisplay(act.dateTime || act.DateTime || "N/A");
         const itemName = act.itemName || act.ItemName || "Unknown Item";
+        const batchId = act.batchID ?? act.BatchID ?? null;
+        const itemNameDisplay = batchId ? `${itemName} <span class="role-tag">(#BTC-${batchId})</span>` : itemName;
 
         let typeClass = "action-badge text-stock-in";
         const lowerAction = currentAction.toLowerCase();
@@ -174,7 +176,7 @@ function renderHistory() {
  
         row.innerHTML = `
             <td>${displayTime}</td>
-            <td><strong>${itemName}</strong></td>
+            <td><strong>${itemNameDisplay}</strong></td>
             <td><span class="${typeClass}" style="padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">${currentAction}</span></td>
             <td><strong>${qtyDisplay}</strong></td>
             <td><strong>${priceDisplay}</strong></td>

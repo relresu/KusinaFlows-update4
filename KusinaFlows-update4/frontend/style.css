@@ -265,6 +265,17 @@ button:hover{
   font-weight: bold;
 }
 
+/* The Dashboard's 4 KPI boxes specifically (not the Reports page's cards,
+   which share the same .card class) — bigger text, digit still clearly
+   bigger than its label. */
+.dashboard-stat-grid .card h3{
+  font-size: 16px;
+}
+
+.dashboard-stat-grid .card p{
+  font-size: 30px;
+}
+
 
 /* Clickable low stock card */
 

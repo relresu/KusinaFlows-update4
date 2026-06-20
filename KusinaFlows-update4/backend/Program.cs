@@ -1,4 +1,5 @@
 using KusinaFlows.Middleware;
+using KusinaFlows.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,11 @@ builder.Services.AddCors(options =>
 
 // Register your custom Neon database service wrapper
 builder.Services.AddSingleton<KusinaFlows.Services.DatabaseService>();
+
+// ABSTRACTION: Controllers depend on these interfaces, never on Npgsql
+// directly — see Repositories/IInventoryRepository.cs and IStaffRepository.cs.
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 
 // ==========================================================
 var app = builder.Build(); // The boundary line

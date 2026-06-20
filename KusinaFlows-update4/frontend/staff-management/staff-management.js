@@ -180,6 +180,29 @@ if (staffPassword) {
     });
 }
 
+// Names: letters, spaces, hyphens, and apostrophes only (covers names like
+// "Dela Cruz" or "O'Brien") — no digits or other symbols.
+const NAME_CHARS_PATTERN = /[^A-Za-z\s'-]/g;
+// M.I. is a middle initial, conventionally written with a trailing period
+// (e.g. "G."), so periods are allowed there but nowhere else.
+const MI_CHARS_PATTERN = /[^A-Za-z.]/g;
+
+if (staffFirstName) {
+    staffFirstName.addEventListener("input", () => {
+        staffFirstName.value = staffFirstName.value.replace(NAME_CHARS_PATTERN, "");
+    });
+}
+if (staffLastName) {
+    staffLastName.addEventListener("input", () => {
+        staffLastName.value = staffLastName.value.replace(NAME_CHARS_PATTERN, "");
+    });
+}
+if (staffMI) {
+    staffMI.addEventListener("input", () => {
+        staffMI.value = staffMI.value.replace(MI_CHARS_PATTERN, "");
+    });
+}
+
 // ============================================================================
 // MUTATION SUBMIT ACTIONS (CREATE / UPDATE)
 // ============================================================================
