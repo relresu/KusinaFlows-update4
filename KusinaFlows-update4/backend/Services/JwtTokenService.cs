@@ -1,10 +1,11 @@
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace KusinaFlows.Middleware
+namespace KusinaFlows.Services
 {
     // Issues signed JWTs for authenticated sessions. Stateless by design — there's
     // no server-side session store, so tokens remain valid until they expire

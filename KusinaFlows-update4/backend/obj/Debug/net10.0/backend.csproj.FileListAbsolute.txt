@@ -76,5 +76,3 @@ C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debu
 C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\KusinaFlows.Middleware.dll
-C:\Users\User\Downloads\KusinaFlows-update4\KusinaFlows-update4\backend\bin\Debug\net10.0\KusinaFlows.Middleware.pdb

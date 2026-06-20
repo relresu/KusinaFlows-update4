@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using KusinaFlows.Services;
-using KusinaFlows.Middleware;
 using KusinaFlows.Repositories;
 using System;
 using System.Threading.Tasks;
