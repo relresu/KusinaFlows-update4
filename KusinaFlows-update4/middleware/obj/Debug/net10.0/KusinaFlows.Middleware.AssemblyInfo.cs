@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KusinaFlows.Middleware")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9db6793cff3883a5631fe2e375b8a08623728c6e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e80862fa5d2eb77713232992b2e4eca277d38ef0")]
 [assembly: System.Reflection.AssemblyProductAttribute("KusinaFlows.Middleware")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KusinaFlows.Middleware")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
