@@ -51,5 +51,14 @@ Fixed a bug where password crashes when empty
 • Fixed Bulk Deactivate giving a misleading error on session expiry; added the missing Manager/Owner privilege check
 + Added date-range validation on Generate Reports (blocks From-after-To and future-dated picks)
 + Tightened overall UI spacing/sizing app-wide for a more compact look
++ Edit Price renamed to Edit Item: now edits Name/Category/Price across every active batch of an item, logging one Stock History row per batch instead of one representative row
++ Stock History, Dashboard Recent Activity, and the Reports Movement Report now show each row's BatchID alongside the Item Name
++ Letters-only validation on Staff name fields (client- and server-side); date validation added on the Stocks page's Use-Thru-Date pickers
++ Repository pattern: all SQL extracted out of Controllers into Inventory/Staff repositories behind interfaces
++ Added PRESENTATION_GUIDE.md and OOP_PILLARS.md for reference
 **Changes made by: Claude (AI pair-programming session)**
+
+1.6 - 20/06/26
++ Collapsed the separate middleware/ project back into backend/ — JwtTokenService now lives in backend/Services/, and the JWT bearer auth setup moved directly into backend/Program.cs. Functionally identical, one fewer project to maintain. (Repo is now just backend/ + frontend/, plus this README at the root.)
+**Change made by: Claude (AI pair-programming session)**
 

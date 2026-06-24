@@ -240,6 +240,8 @@ function buildMovementRow(act) {
 
     const displayTime = window.KFFormat.formatDateTimeDisplay(act.dateTime ?? act.DateTime ?? "N/A");
     const itemName    = act.itemName ?? act.ItemName ?? "Unknown Item";
+    const batchId     = act.batchID  ?? act.BatchID  ?? null;
+    const itemNameDisplay = batchId ? `${itemName} <span class="role-tag">(#BTC-${batchId})</span>` : itemName;
 
     const lowerAction = currentAction.toLowerCase();
     const isAdd = lowerAction.includes("add") || lowerAction.includes("fresh");
@@ -252,7 +254,7 @@ function buildMovementRow(act) {
     return `
         <tr>
             <td>${displayTime}</td>
-            <td><strong>${itemName}</strong></td>
+            <td><strong>${itemNameDisplay}</strong></td>
             <td>${currentAction}</td>
             <td>${qtyDisplay}</td>
             <td>${priceDisplay}</td>

@@ -1,4 +1,8 @@
-using KusinaFlows.Middleware;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using KusinaFlows.Repositories;
+using KusinaFlows.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +13,29 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
 
-// JWT bearer authentication — defined in the separate middleware project
-// (middleware/JwtAuthExtensions.cs). Registers both authentication and
-// authorization services in one call.
-builder.Services.AddKusinaFlowsAuth(builder.Configuration);
+// JWT bearer authentication. JwtTokenService (Services/JwtTokenService.cs)
+// issues tokens on login; this scheme validates them on every subsequent
+// request to a [Authorize]-protected endpoint (InventoryController,
+// StaffController), before the request ever reaches controller code.
+builder.Services.AddSingleton<JwtTokenService>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
+            ClockSkew = TimeSpan.FromMinutes(1)
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 // Add your CORS policy configuration
 builder.Services.AddCors(options =>
@@ -28,6 +51,11 @@ builder.Services.AddCors(options =>
 
 // Register your custom Neon database service wrapper
 builder.Services.AddSingleton<KusinaFlows.Services.DatabaseService>();
+
+// ABSTRACTION: Controllers depend on these interfaces, never on Npgsql
+// directly — see Repositories/IInventoryRepository.cs and IStaffRepository.cs.
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 
 // ==========================================================
 var app = builder.Build(); // The boundary line

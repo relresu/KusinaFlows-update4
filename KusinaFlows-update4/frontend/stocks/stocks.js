@@ -39,10 +39,12 @@ const deleteApprovalDropdown = document.getElementById("deleteApprovalDropdown")
 const deleteConfirmBtn       = document.getElementById("deleteConfirmBtn");
 const closeDeleteModalBtn    = document.getElementById("closeDeleteModal");
 
-// Edit Price Modal refs
+// Edit Item Modal refs (edits Name/Category/Price across every active batch of the item)
 const editPriceModal            = document.getElementById("editPriceModal");
 const editPriceSubtitle         = document.getElementById("editPriceSubtitle");
 const editPriceForm             = document.getElementById("editPriceForm");
+const editItemNameInput         = document.getElementById("editItemNameInput");
+const editItemCategoryInput     = document.getElementById("editItemCategoryInput");
 const editPriceInput            = document.getElementById("editPriceInput");
 const editPriceApprovalDropdown = document.getElementById("editPriceApprovalDropdown");
 const closeEditPriceModalBtn    = document.getElementById("closeEditPriceModal");
@@ -90,6 +92,12 @@ function utdToInputDate(utdInt) {
     const { year, month, day } = parseUtdInt(utdInt);
     if (!year) return "";
     return `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+}
+
+// Today's date as "YYYY-MM-DD", for use as a date input's min/comparison bound
+function todayInputDate() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
  
 // Converts "YYYY-MM-DD" string → 8-digit integer (e.g. 20260614)
@@ -292,7 +300,7 @@ function renderInventory(filteredGroups = null) {
             </td>
             <td>
                 ${!isGroupUnavailable ? `
-                    <button class="edit-price-btn" onclick="openEditPriceModal(${group.id}, '${group.name.replace(/'/g, "\\'")}', ${group.price})">Edit Price</button>
+                    <button class="edit-price-btn" onclick="openEditPriceModal(${group.id}, '${group.name.replace(/'/g, "\\'")}', '${group.category.replace(/'/g, "\\'")}', ${group.price})">Edit Item</button>
                     <button style="background: #ff4757; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold;" onclick="deleteEntireItem('${group.name.replace(/'/g, "\\'")}')">Delete Item</button>
                 ` : `<span style="color: #aaa; font-style: italic; font-size: 13px;">No Actions</span>`}
             </td>
@@ -402,8 +410,11 @@ window.editItemGroup = function(batchId) {
     document.getElementById("itemQuantity").value = targetBatch.quantity;
     document.getElementById("itemCategory").value = targetBatch.category;
     document.getElementById("itemPrice").value = targetBatch.price;
+    // No past-date restriction on edits — the batch may legitimately already
+    // be expired and still need its other fields corrected.
+    document.getElementById("itemUTD").removeAttribute("min");
     document.getElementById("itemUTD").value = utdToInputDate(targetBatch.UTD ?? targetBatch.utd ?? 0);
- 
+
     populateApproverDropdown("itemManagerApprovalDropdown");
     itemForm.dataset.mode = "EDIT";
     itemModal.classList.remove("hidden");
@@ -466,13 +477,17 @@ window.deleteEntireItem = function(itemName) {
 };
 
 // ============================================================================
-// EDIT PRICE MODAL
+// EDIT ITEM MODAL
+// Edits Name/Category/Price at the item level — applies to every active
+// batch of that item, and each affected batch gets its own Stock History row.
 // ============================================================================
-let _pendingEditPriceItemId = null;
+let _pendingEditItemId = null;
 
-window.openEditPriceModal = function(itemId, itemName, currentPrice) {
-    _pendingEditPriceItemId = itemId;
-    if (editPriceSubtitle) editPriceSubtitle.textContent = `Set a new price for "${itemName}".`;
+window.openEditPriceModal = function(itemId, itemName, category, currentPrice) {
+    _pendingEditItemId = itemId;
+    if (editPriceSubtitle) editPriceSubtitle.textContent = `Editing "${itemName}" — changes apply to every available batch of this item.`;
+    if (editItemNameInput) editItemNameInput.value = itemName;
+    if (editItemCategoryInput) editItemCategoryInput.value = category;
     if (editPriceInput) editPriceInput.value = currentPrice;
     populateApproverDropdown("editPriceApprovalDropdown");
     if (editPriceModal) editPriceModal.classList.remove("hidden");
@@ -485,7 +500,7 @@ if (closeEditPriceModalBtn) {
 if (editPriceForm) {
     editPriceForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        if (!_pendingEditPriceItemId) return;
+        if (!_pendingEditItemId) return;
 
         const currentUser = getActiveSessionUser();
         if (!currentUser) return;
@@ -493,20 +508,27 @@ if (editPriceForm) {
         const approverScId = editPriceApprovalDropdown ? parseInt(editPriceApprovalDropdown.value) : 0;
         if (!approverScId) { alert("Please select an approver before confirming."); return; }
 
+        const newItemName = editItemNameInput.value.trim();
+        const newCategory = editItemCategoryInput.value.trim();
+        if (!newItemName) { alert("Please enter an item name."); return; }
+        if (!newCategory) { alert("Please enter a category."); return; }
+
         const newPrice = parseFloat(editPriceInput.value);
         if (isNaN(newPrice) || newPrice < 0) { alert("Please enter a valid price."); return; }
 
         const payload = {
+            itemName: newItemName,
+            category: newCategory,
             price: newPrice,
             performedByScId: currentUser.userId ?? currentUser.SC_ID ?? currentUser.sc_ID,
             approvedByScId: approverScId
         };
 
         try {
-            const res = await window.kfFetch(`${API_BASE_URL}/inventory/update-price/${_pendingEditPriceItemId}`, {
+            const res = await window.kfFetch(`${API_BASE_URL}/inventory/update-item/${_pendingEditItemId}`, {
                 method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
             });
-            if (!res.ok) throw new Error("Failed to update price.");
+            if (!res.ok) throw new Error("Failed to update item.");
             editPriceModal.classList.add("hidden");
             await syncInventoryFromServer();
         } catch (err) {
@@ -522,10 +544,19 @@ itemForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const currentUser = getActiveSessionUser();
     if (!currentUser) return;
- 
+
     const mode = itemForm.dataset.mode;
     const managerApproval = document.getElementById("itemManagerApprovalDropdown").value;
- 
+    const itemUTDInput = document.getElementById("itemUTD");
+
+    if (!itemUTDInput.value) { alert("Please select a Use-Thru-Date."); return; }
+    // Explicit check (not just the native min attribute) so a manually-typed
+    // or devtools-edited date can't slip a past UTD into a brand-new batch.
+    if (mode === "ADD" && itemUTDInput.value < todayInputDate()) {
+        alert("Use-Thru-Date cannot be in the past for a newly added batch.");
+        return;
+    }
+
     // 🔄 Map directly to the elements that actually exist in stock.html
     const payload = {
         itemName: document.getElementById("itemName").value,
@@ -573,8 +604,14 @@ stockForm.addEventListener("submit", async (e) => {
     const selectedOption = stockItemSelect.options[stockItemSelect.selectedIndex];
     const qty = parseInt(document.getElementById("stockQuantity").value);
     const approverValue = document.getElementById("stockManagerApprovalDropdown").value;
- 
+
     if (currentTransactionType === "IN") {
+        if (!stockUTD.value) { alert("Please select a Use-Thru-Date."); return; }
+        if (stockUTD.value < todayInputDate()) {
+            alert("Use-Thru-Date cannot be in the past for a new Stock-In batch.");
+            return;
+        }
+
         const payload = {
             itemID: parseInt(selectedOption.value), itemName: selectedOption.dataset.name,
             category: selectedOption.dataset.category, price: parseFloat(selectedOption.dataset.price),
@@ -623,14 +660,19 @@ stockItemSelect.addEventListener("change", () => {
 // ============================================================================
 addItemBtn.addEventListener("click", () => {
     modalTitle.textContent = "Add Item"; itemForm.reset();
+    // Freshly-added stock can't already be expired — block past UTD picks.
+    // (Editing an existing, possibly already-expired batch has no such limit —
+    // see editItemGroup, which removes this bound.)
+    document.getElementById("itemUTD").min = todayInputDate();
     populateApproverDropdown("itemManagerApprovalDropdown");
     itemForm.dataset.mode = "ADD"; itemModal.classList.remove("hidden");
 });
- 
+
 stockInBtn.addEventListener("click", () => {
     currentTransactionType = "IN"; stockModalTitle.textContent = "Stock-In Transaction"; stockForm.reset();
     document.getElementById("batchSelectContainer").style.display = "none"; stockBatchSelect.removeAttribute("required");
     stockUTD.style.display = "block"; stockUTD.setAttribute("required", "true"); stockUTDLabel.style.display = "block";
+    stockUTD.min = todayInputDate(); // a fresh Stock-In batch can't already be expired
     populateApproverDropdown("stockManagerApprovalDropdown"); stockModal.classList.remove("hidden");
 });
  

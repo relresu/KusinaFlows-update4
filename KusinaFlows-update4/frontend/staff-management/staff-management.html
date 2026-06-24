@@ -127,15 +127,15 @@
             <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                 <div style="flex: 2;">
                     <label for="staffLastName" style="display: block; font-weight: 600; font-size: 13px; margin-bottom: 5px;">Last Name</label>
-                    <input type="text" id="staffLastName" required placeholder="e.g. Santos" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+                    <input type="text" id="staffLastName" required placeholder="e.g. Santos" pattern="[A-Za-z\s'-]+" title="Letters only — no numbers or symbols" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
                 </div>
                 <div style="flex: 2;">
                     <label for="staffFirstName" style="display: block; font-weight: 600; font-size: 13px; margin-bottom: 5px;">First Name</label>
-                    <input type="text" id="staffFirstName" required placeholder="e.g. Danilo" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+                    <input type="text" id="staffFirstName" required placeholder="e.g. Danilo" pattern="[A-Za-z\s'-]+" title="Letters only — no numbers or symbols" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
                 </div>
                 <div style="flex: 1;">
                     <label for="staffMI" style="display: block; font-weight: 600; font-size: 13px; margin-bottom: 5px;">M.I.</label>
-                    <input type="text" id="staffMI" maxlength="2" placeholder="G." style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+                    <input type="text" id="staffMI" maxlength="2" placeholder="G." pattern="[A-Za-z.]*" title="Letters only" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
                 </div>
             </div>
 

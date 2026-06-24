@@ -56,23 +56,23 @@
 
     <!-- Date Range Filter -->
     <section class="search-section" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
-      <div style="display: flex; align-items: flex-end; gap: 15px; flex-wrap: wrap;">
-        <div>
+      <div style="display: flex; align-items: flex-end; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
+        <div style="width: 130px;">
           <label class="field-label" for="reportFromDate">From</label>
-          <input type="date" id="reportFromDate">
+          <input type="date" id="reportFromDate" style="width: 100%;">
         </div>
-        <div>
+        <div style="width: 130px;">
           <label class="field-label" for="reportToDate">To</label>
-          <input type="date" id="reportToDate">
+          <input type="date" id="reportToDate" style="width: 100%;">
         </div>
-        <button type="button" id="btnClearDateRange" style="background: #5a4d41;">Clear Range</button>
-        <span style="font-size: 12px; color: #888; align-self: center;">Leave blank to include all-time data. Pick a report below to apply the range.</span>
+        <button type="button" id="btnClearDateRange" style="background: #5a4d41; width: 120px;">Clear Range</button>
       </div>
+      <span style="font-size: 12px; color: #888; margin-bottom: 10px;">Leave blank to include all-time data. Pick a report below to apply the range.</span>
       <span id="reportDateRangeWarning" style="display:none; font-size: 12px; color: var(--danger); font-weight: bold;"></span>
     </section>
 
     <!-- Report Action Buttons -->
-    <div class="topbar-actions" style="margin-bottom: 30px; display: flex; gap: 15px; flex-wrap: wrap;">
+    <div class="topbar-actions" style="margin-bottom: 40px; display: flex; gap: 15px; flex-wrap: wrap;">
       <button id="btnInventoryReport">Current Inventory Level Report</button>
       <button id="btnMovementReport">Stock Movement Report</button>
       <button id="btnFinanceReport">Expense/Financial Report</button>
@@ -102,7 +102,7 @@
 
   <script src="../format.js"></script>
   <script src="../api.js"></script>
-  <script src="reports.js"></script>
+  <script src="gen-reports.js"></script>
   <script src="../nav.js"></script>
 
 </body>

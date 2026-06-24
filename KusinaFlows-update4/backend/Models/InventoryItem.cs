@@ -1,6 +1,10 @@
 namespace KusinaFlows.Models
 {
-    public class InventoryItem
+    // ENCAPSULATION: the rules for what makes an item "valid" (name required,
+    // no negative price/quantity) live inside the class that owns that data,
+    // instead of being scattered as inline ifs in whatever controller happens
+    // to receive one.
+    public class InventoryItem : AuditableRequest
     {
         public int BatchID { get; set; }
         public int ItemID { get; set; }
@@ -13,9 +17,16 @@ namespace KusinaFlows.Models
         public string Action { get; set; } = "Add Item";
         public string DateAdded { get; set; } = string.Empty;
 
-        // SC_IDs from the logged-in user and selected approver.
-        // NOT NULL in STOCK HISTORY — validated before any history insert.
-        public int? PerformedByScId { get; set; }
-        public int? ApprovedByScId { get; set; }
+        public override bool IsValid(out string error)
+        {
+            if (!base.IsValid(out error)) return false; // shared PerformedBy/ApprovedBy check
+
+            if (string.IsNullOrWhiteSpace(ItemName)) { error = "Item name is required."; return false; }
+            if (Quantity < 0) { error = "Quantity cannot be negative."; return false; }
+            if (Price < 0) { error = "Price cannot be negative."; return false; }
+
+            error = string.Empty;
+            return true;
+        }
     }
 }
